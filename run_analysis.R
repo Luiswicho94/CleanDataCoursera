@@ -10,7 +10,7 @@ download.file(fileURL, destfile = "./CleanDataCoursera")
 unzip(zipfile = "./CleanDataCoursera/Dataset.zip", exdir="./CleanDataCoursera")
 }
 ##Save the path where the files are and make a list of all files available
-path_rf <- file.path("./CleanDataCoursera", "UCI HAR Dataset")
+path_rf <- file.path("C:/Users/Cecy/Documents/R Projects/CleanDataCoursera/UCI HAR Dataset")
 files <- list.files(path_rf, recursive = TRUE)
 
 ##Read Activity Data
@@ -33,7 +33,7 @@ FeatureData <- rbind(FeatureTrain, FeatureTest)
 ##Label Data 
 names(SubjectData) <- c("Subject")
 names(ActivityData) <- c("Activity")
-FeatureNames <- read.table(file.path(path_rf, "feature.txt"), head = FALSE)
+FeatureNames <- read.table(file.path(path_rf, "features.txt"), head = FALSE)
 names(FeatureData) <- FeatureNames$V2
 
 #Merge data
@@ -48,7 +48,7 @@ Data <- subset(Data, select=ChosenNames)
 
 ##Further label all activities listed
 ActivityLables <- read.table(file.path(path_rf, "activity_labels.txt"), header = FALSE)
-Data$activity<- factor(Data$activity, labels = ActivityLables[,2])
+Data$Activity<- factor(Data$Activity,labels = ActivityLables[,2])
 names(Data) <- gsub("^t", "Time", names(Data))
 names(Data) <- gsub("^f", "Frequency", names(Data))
 names(Data) <- gsub("Acc", "Accelerometer", names(Data))
@@ -57,9 +57,9 @@ names(Data) <- gsub("Mag", "Magnitude", names(Data))
 names(Data) <- gsub("BodyBody", "Body", names(Data))
 
 ##Create Tidy Dataset
-TidyData <- aggregate(. ~subject + activity, Data, mean)
-TidyData <- TidyData[order(TidyData$subject, Data$activity), ]
+TidyData <- aggregate(. ~Subject + Activity, Data, mean)
+TidyData <- TidyData[order(TidyData$Subject, TidyData$Activity), ]
 write.table(TidyData, file = "tidydata.txt", row.name=FALSE)
 
-##Produce Codebook 
-knit2html("codebook.Rmd")
+##Display summary of .txt created
+summary(TidyData)
