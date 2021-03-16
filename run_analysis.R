@@ -1,6 +1,5 @@
 ##Load libraries required for the script
 library(plyr)
-library(knitr)
 library(downloader)
 
 ## Check if files already exists on the repo, if not we download them and unzip them.
